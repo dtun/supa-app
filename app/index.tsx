@@ -2,7 +2,6 @@ import { supbase } from '@/utils/supabase';
 import { useState } from 'react';
 import {
   ActivityIndicator,
-  Alert,
   Button,
   StyleSheet,
   Text,
@@ -10,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { showAlert } from '@/utils/showAlert';
 
 const Page = () => {
   const [email, setEmail] = useState('');
@@ -24,7 +24,7 @@ const Page = () => {
       password,
     });
 
-    if (error) Alert.alert(error.message);
+    if (error) showAlert(error.message);
 
     setLoading(false);
   };
@@ -35,13 +35,10 @@ const Page = () => {
     const {
       error,
       data: { session },
-    } = await supbase.auth.signUp({
-      email,
-      password,
-    });
+    } = await supbase.auth.signUp({ email, password });
 
-    if (error) Alert.alert(error.message);
-    if (!session) Alert.alert('Check your email for the confirmation link.');
+    if (error) showAlert(error.message);
+    if (!session) showAlert('Check your email for the confirmation link.');
 
     setLoading(false);
   };
