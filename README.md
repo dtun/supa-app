@@ -1,6 +1,6 @@
 # supa app
 
-This project was created for learning React Native, Expo, and Supabase.
+This project was created for learning React Native, Expo Router, and Supabase.
 
 ## Features
 
