@@ -5,7 +5,7 @@ import { AppState } from 'react-native';
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
-const supbase = createClient(supabaseUrl!, supabaseKey!, {
+const supabase = createClient(supabaseUrl!, supabaseKey!, {
   auth: {
     storage: AsyncStorage,
     autoRefreshToken: true,
@@ -16,10 +16,10 @@ const supbase = createClient(supabaseUrl!, supabaseKey!, {
 
 AppState.addEventListener('change', (nextAppState) => {
   if (nextAppState === 'active') {
-    supbase.auth.startAutoRefresh();
+    supabase.auth.startAutoRefresh();
   } else {
-    supbase.auth.stopAutoRefresh();
+    supabase.auth.stopAutoRefresh();
   }
 });
 
-export { supbase };
+export { supabase };

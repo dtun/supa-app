@@ -1,4 +1,4 @@
-import { supbase } from '@/utils/supabase';
+import { supabase } from '@/utils/supabase';
 import { Session } from '@supabase/supabase-js';
 import { Slot, useRouter, useSegments } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -10,7 +10,7 @@ const InitialLayout = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const { data } = supbase.auth.onAuthStateChange((_event, session) => {
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setInitialized(true);
     });

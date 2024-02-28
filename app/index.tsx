@@ -1,4 +1,4 @@
-import { supbase } from '@/utils/supabase';
+import { supabase } from '@/utils/supabase';
 import { useState } from 'react';
 import {
   ActivityIndicator,
@@ -19,7 +19,7 @@ const Page = () => {
   const onSignInPress = async () => {
     setLoading(true);
 
-    const { error } = await supbase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -35,7 +35,7 @@ const Page = () => {
     const {
       error,
       data: { session },
-    } = await supbase.auth.signUp({ email, password });
+    } = await supabase.auth.signUp({ email, password });
 
     if (error) showAlert(error.message);
     if (!session) showAlert('Check your email for the confirmation link.');

@@ -1,4 +1,4 @@
-import { supbase } from '@/utils/supabase';
+import { supabase } from '@/utils/supabase';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { Text, TouchableOpacity } from 'react-native';
@@ -17,7 +17,7 @@ const Layout = () => {
           backgroundColor: '#151515',
         },
         headerRight: () => (
-          <TouchableOpacity onPress={() => supbase.auth.signOut()}>
+          <TouchableOpacity onPress={() => supabase.auth.signOut()}>
             <Ionicons
               name="log-out-outline"
               size={24}
