@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { showAlert } from '@/utils/showAlert';
+import { AppleAuth } from '@/components/AppleAuth.native';
 
 const Page = () => {
   const [email, setEmail] = useState('');
@@ -72,6 +73,9 @@ const Page = () => {
         <Text style={{ color: '#fff' }}>Sign In</Text>
       </TouchableOpacity>
       <Button title="Sign Up" color="#fff" onPress={onSignUpPress} />
+      <View style={styles.appleAuthView}>
+        <AppleAuth />
+      </View>
     </View>
   );
 };
@@ -79,6 +83,7 @@ const Page = () => {
 export default Page;
 
 const styles = StyleSheet.create({
+  appleAuthView: { alignItems: 'center', marginTop: 10, gap: 10 },
   container: {
     flex: 1,
     paddingTop: 200,
