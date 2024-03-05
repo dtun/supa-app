@@ -33,6 +33,12 @@
           <string>com.dtun.supaapp</string>
         </array>
       </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>com.googleusercontent.apps.327960141607-7cbihe3f1sqgi8ie5ckt42g0efs4lafd</string>
+        </array>
+      </dict>
     </array>
     <key>CFBundleVersion</key>
     <string>1</string>

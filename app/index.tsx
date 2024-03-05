@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { showAlert } from '@/utils/showAlert';
 import { AppleAuth } from '@/components/AppleAuth.native';
+import { GoogleAuth } from '@/components/GoogleAuth.native';
 
 const Page = () => {
   const [email, setEmail] = useState('');
@@ -75,6 +76,7 @@ const Page = () => {
       <Button title="Sign Up" color="#fff" onPress={onSignUpPress} />
       <View style={styles.appleAuthView}>
         <AppleAuth />
+        <GoogleAuth />
       </View>
     </View>
   );
