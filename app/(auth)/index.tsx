@@ -1,10 +1,20 @@
+import { Todo } from '@/utils/interfaces';
 import { supabase } from '@/utils/supabase';
-import { useState } from 'react';
-import { Button, TextInput, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useEffect, useState } from 'react';
+import {
+  Button,
+  FlatList,
+  ListRenderItem,
+  TextInput,
+  View,
+  Text,
+} from 'react-native';
 
 const Page = () => {
   const [todo, setTodo] = useState('');
   const [loading, setLoading] = useState(false);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const addTodo = async () => {
     setLoading(true);
 
@@ -16,11 +26,46 @@ const Page = () => {
       task: todo,
     };
 
-    await supabase.from('todos').insert(newTodo).single();
+    const result = await supabase
+      .from('todos')
+      .insert(newTodo)
+      .select()
+      .single();
 
     setTodo('');
     setLoading(false);
+    setTodos([result.data, ...todos]);
   };
+
+  useEffect(() => {
+    const loadTodos = async () => {
+      const { data: todos, error } = await supabase
+        .from('todos')
+        .select('*')
+        .order('inserted_at', { ascending: false });
+
+      if (error) {
+        console.error(error);
+      } else {
+        setTodos(todos);
+      }
+    };
+
+    loadTodos();
+  }, []);
+
+  const renderRow: ListRenderItem<Todo> = ({ item }: { item: Todo }) => (
+    <View style={{ padding: 12, flexDirection: 'row', gap: 10, height: 44 }}>
+      <Text style={{ flex: 1 }}>{item.task}</Text>
+      {item.is_complete && (
+        <Ionicons
+          name="checkmark-done-circle-outline"
+          size={24}
+          color="#151515"
+        />
+      )}
+    </View>
+  );
 
   return (
     <View style={{ flex: 1 }}>
@@ -52,6 +97,7 @@ const Page = () => {
           disabled={loading || todo === ''}
         />
       </View>
+      <FlatList data={todos} renderItem={renderRow} />
     </View>
   );
 };
