@@ -1,3 +1,4 @@
+import AppleStyleSwipeableRow from '@/components/Swipeable';
 import { Todo } from '@/utils/interfaces';
 import { supabase } from '@/utils/supabase';
 import { Ionicons } from '@expo/vector-icons';
@@ -54,17 +55,42 @@ const Page = () => {
     loadTodos();
   }, []);
 
+  const updateTodo = async (todo: Todo) => {
+    const { data, error } = await supabase
+      .from('todos')
+      .update({ is_complete: !todo.is_complete })
+      .eq('id', todo.id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error(error);
+    } else {
+      setTodos(todos.map((t) => (t.id === data.id ? data : t)));
+    }
+  };
+  const deleteTodo = async (todo: Todo) => {
+    await supabase.from('todos').delete().eq('id', todo.id);
+    setTodos(todos.filter((t) => t.id !== todo.id));
+  };
+
   const renderRow: ListRenderItem<Todo> = ({ item }: { item: Todo }) => (
-    <View style={{ padding: 12, flexDirection: 'row', gap: 10, height: 44 }}>
-      <Text style={{ flex: 1 }}>{item.task}</Text>
-      {item.is_complete && (
-        <Ionicons
-          name="checkmark-done-circle-outline"
-          size={24}
-          color="#151515"
-        />
-      )}
-    </View>
+    <AppleStyleSwipeableRow
+      todo={item}
+      onToggle={() => updateTodo(item)}
+      onDelete={() => deleteTodo(item)}
+    >
+      <View style={{ padding: 12, flexDirection: 'row', gap: 10, height: 44 }}>
+        <Text style={{ flex: 1 }}>{item.task}</Text>
+        {item.is_complete && (
+          <Ionicons
+            name="checkmark-done-circle-outline"
+            size={24}
+            color="#151515"
+          />
+        )}
+      </View>
+    </AppleStyleSwipeableRow>
   );
 
   return (
